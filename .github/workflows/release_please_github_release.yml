@@ -8,11 +8,26 @@ on:
       - '**.md'
 
 jobs:
-  release:
+  check-release-commit:
+    runs-on: ubuntu-latest
+    outputs:
+      is_release: ${{ steps.check.outputs.is_release }}
+    steps:
+      - name: Check if commit is a release
+        id: check
+        run: |
+          if [[ "${{ github.event.head_commit.message }}" == chore\(main\):\ release* ]]; then
+            echo "is_release=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_release=false" >> $GITHUB_OUTPUT
+          fi
+
+  run-release-please:
+    needs: check-release-commit
+    if: needs.check-release-commit.outputs.is_release == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Only run on release commit
-        if: startsWith(github.event.head_commit.message, 'chore(main): release')
+      - name: Run Release Please
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
