@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/1godfrey/wholesale-crm/compare/v1.14.0...v1.15.0) (2025-04-16)
+
+
+### Features
+
+* update release workflow after merge ([ed309ce](https://github.com/1godfrey/wholesale-crm/commit/ed309cebd90056574519f8c96f55081342ca5c9c))
+
 ## [1.14.0](https://github.com/1godfrey/wholesale-crm/compare/v1.13.0...v1.14.0) (2025-04-16)
 
 
