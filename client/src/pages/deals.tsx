@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Layout } from "@/components/layout/layout";
 import { Button } from "@/components/ui/button";
 import { KanbanBoard } from "@/components/deals/kanban-board";
+import { DealsListView } from "@/components/deals/deals-list-view";
+import { DealsAnalytics } from "@/components/deals/deals-analytics";
 import { DealFormModal } from "@/components/deals/deal-form-modal";
+import { DealDetailModal } from "@/components/deals/deal-detail-modal";
 import { useDeals } from "@/hooks/use-deals";
 import { useDocuments } from "@/hooks/use-documents";
 import { Deal, DealStatus, InsertDeal } from "@shared/schema";
@@ -20,6 +23,10 @@ export default function Deals() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [addDealModalOpen, setAddDealModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("kanban");
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  
   const { deals, isLoading, createDeal, updateStatus } = useDeals();
   
   const handleSearch = (value: string) => {
@@ -45,6 +52,11 @@ export default function Deals() {
     return await simulateFileUpload(file, "admin"); // Simplified - would use actual user ID
   };
   
+  const handleDealClick = (deal: Deal) => {
+    setSelectedDeal(deal);
+    setDetailModalOpen(true);
+  };
+  
   // Filter deals based on search term and status filter
   const filteredDeals = deals?.filter(deal => {
     // Search term filter
@@ -65,7 +77,7 @@ export default function Deals() {
       {/* Page header */}
       <div className="bg-white border-b border-neutral-200">
         <div className="px-4 sm:px-6 lg:px-8">
-          <Tabs defaultValue="kanban">
+          <Tabs defaultValue="kanban" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-0">
               <TabsTrigger value="kanban">Kanban</TabsTrigger>
               <TabsTrigger value="list">List View</TabsTrigger>
@@ -79,41 +91,79 @@ export default function Deals() {
       <div className="py-4 px-4 sm:px-6 lg:px-8 bg-white shadow-sm">
         <div className="flex flex-wrap items-center justify-between">
           <div className="flex-1 min-w-0">
-            <h2 className="text-xl font-bold leading-7 text-neutral-900 sm:truncate">All Deals</h2>
+            <h2 className="text-xl font-bold leading-7 text-neutral-900 sm:truncate">
+              {activeTab === "analytics" ? "Deal Analytics" : "All Deals"}
+            </h2>
           </div>
-          <div className="flex mt-4 md:mt-0 space-x-3">
-            <div className="w-48">
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter by status" />
+          {activeTab !== "analytics" && (
+            <div className="flex mt-4 md:mt-0 space-x-3">
+              <div className="w-48">
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value={DealStatus.New}>New</SelectItem>
+                    <SelectItem value={DealStatus.Negotiating}>Negotiating</SelectItem>
+                    <SelectItem value={DealStatus.UnderContract}>Under Contract</SelectItem>
+                    <SelectItem value={DealStatus.Assigned}>Assigned</SelectItem>
+                    <SelectItem value={DealStatus.Closed}>Closed</SelectItem>
+                    <SelectItem value={DealStatus.Dead}>Dead</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button onClick={() => setAddDealModalOpen(true)}>
+                <i className="ri-add-line mr-2"></i>
+                Add Deal
+              </Button>
+            </div>
+          )}
+          {activeTab === "analytics" && (
+            <div className="flex mt-4 md:mt-0 space-x-3">
+              <Button variant="outline">
+                <i className="ri-download-line mr-2"></i>
+                Export Report
+              </Button>
+              <Select defaultValue="30d">
+                <SelectTrigger className="w-36">
+                  <SelectValue placeholder="Time Period" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value={DealStatus.New}>New</SelectItem>
-                  <SelectItem value={DealStatus.Negotiating}>Negotiating</SelectItem>
-                  <SelectItem value={DealStatus.UnderContract}>Under Contract</SelectItem>
-                  <SelectItem value={DealStatus.Assigned}>Assigned</SelectItem>
-                  <SelectItem value={DealStatus.Closed}>Closed</SelectItem>
-                  <SelectItem value={DealStatus.Dead}>Dead</SelectItem>
+                  <SelectItem value="7d">Last 7 days</SelectItem>
+                  <SelectItem value="30d">Last 30 days</SelectItem>
+                  <SelectItem value="90d">Last 90 days</SelectItem>
+                  <SelectItem value="year">Last 12 months</SelectItem>
+                  <SelectItem value="all">All time</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={() => setAddDealModalOpen(true)}>
-              <i className="ri-add-line mr-2"></i>
-              Add Deal
-            </Button>
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Kanban Board */}
+      {/* Tab Content */}
       <div className="px-4 sm:px-6 lg:px-8 py-4">
-        <KanbanBoard 
-          deals={filteredDeals}
-          loading={isLoading}
-          onUpdateStatus={handleUpdateStatus}
-          onUploadDocument={handleDocumentUpload}
-        />
+        {activeTab === "kanban" && (
+          <KanbanBoard 
+            deals={filteredDeals}
+            loading={isLoading}
+            onUpdateStatus={handleUpdateStatus}
+            onUploadDocument={handleDocumentUpload}
+          />
+        )}
+        
+        {activeTab === "list" && (
+          <DealsListView 
+            deals={filteredDeals} 
+            loading={isLoading}
+            onDealClick={handleDealClick}
+          />
+        )}
+        
+        {activeTab === "analytics" && (
+          <DealsAnalytics deals={deals || []} />
+        )}
       </div>
       
       {/* Add Deal Modal */}
@@ -122,6 +172,15 @@ export default function Deals() {
         onClose={() => setAddDealModalOpen(false)}
         onSubmit={handleAddDeal}
         isSubmitting={createDeal.isPending}
+      />
+      
+      {/* Deal Detail Modal */}
+      <DealDetailModal
+        deal={selectedDeal}
+        isOpen={detailModalOpen}
+        onClose={() => setDetailModalOpen(false)}
+        onUpdateStatus={handleUpdateStatus}
+        onUploadDocument={file => handleDocumentUpload(selectedDeal?.deal_id || "", file)}
       />
     </Layout>
   );

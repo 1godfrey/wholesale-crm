@@ -1,114 +1,94 @@
-import { Deal } from "@shared/schema";
-
-export const formatCurrency = (amount: number | null | undefined): string => {
-  if (amount === null || amount === undefined) return "N/A";
+// Format currency values
+export const formatCurrency = (value: number | string | null | undefined): string => {
+  if (value === null || value === undefined || value === "") return "N/A";
+  
+  const numberValue = typeof value === "string" ? parseFloat(value) : value;
+  
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
+    minimumFractionDigits: 0,
     maximumFractionDigits: 0
-  }).format(amount);
+  }).format(numberValue);
 };
 
-export const formatDate = (date: Date | string | null | undefined): string => {
-  if (!date) return "N/A";
+// Format date to readable string
+export const formatDate = (dateString: string | null | undefined): string => {
+  if (!dateString) return "N/A";
   
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "Invalid Date";
+  
+  return new Intl.DateTimeFormat('en-US', { 
+    month: 'short', 
     day: 'numeric',
     year: 'numeric'
-  }).format(dateObj);
+  }).format(date);
 };
 
-export const formatDateTime = (date: Date | string | null | undefined): string => {
-  if (!date) return "N/A";
+// Format date and time to readable string
+export const formatDateTime = (dateString: string | null | undefined): string => {
+  if (!dateString) return "N/A";
   
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "Invalid Date";
+  
+  return new Intl.DateTimeFormat('en-US', { 
+    month: 'short', 
     day: 'numeric',
     year: 'numeric',
-    hour: '2-digit',
+    hour: 'numeric',
     minute: '2-digit'
-  }).format(dateObj);
+  }).format(date);
 };
 
-export const getTimeSince = (date: Date | string | null | undefined): string => {
-  if (!date) return "N/A";
+// Calculate time since a date (e.g., "2 hours ago")
+export const getTimeSince = (dateString: string | null | undefined): string => {
+  if (!dateString) return "N/A";
   
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "Invalid Date";
+  
   const now = new Date();
-  const seconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000);
+  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   
-  if (seconds < 60) return "just now";
+  let interval = Math.floor(seconds / 31536000); // years
+  if (interval >= 1) {
+    return interval === 1 ? "1 year ago" : `${interval} years ago`;
+  }
   
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m ago`;
+  interval = Math.floor(seconds / 2592000); // months
+  if (interval >= 1) {
+    return interval === 1 ? "1 month ago" : `${interval} months ago`;
+  }
   
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
+  interval = Math.floor(seconds / 86400); // days
+  if (interval >= 1) {
+    return interval === 1 ? "1 day ago" : `${interval} days ago`;
+  }
   
-  const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
+  interval = Math.floor(seconds / 3600); // hours
+  if (interval >= 1) {
+    return interval === 1 ? "1 hour ago" : `${interval} hours ago`;
+  }
   
-  const weeks = Math.floor(days / 7);
-  if (weeks < 4) return `${weeks}w ago`;
+  interval = Math.floor(seconds / 60); // minutes
+  if (interval >= 1) {
+    return interval === 1 ? "1 minute ago" : `${interval} minutes ago`;
+  }
   
-  return formatDate(date);
+  return "just now";
 };
 
-export const calculateProfit = (deal: Deal): number => {
-  if (!deal.target_price || !deal.assigned_price) return 0;
-  return Number(deal.assigned_price) - Number(deal.target_price);
-};
-
-export const sortDeals = (deals: Deal[], sortBy: string): Deal[] => {
-  return [...deals].sort((a, b) => {
-    switch (sortBy) {
-      case 'dateAsc':
-        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-      case 'dateDesc':
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      case 'priceAsc':
-        return (Number(a.target_price) || 0) - (Number(b.target_price) || 0);
-      case 'priceDesc':
-        return (Number(b.target_price) || 0) - (Number(a.target_price) || 0);
-      case 'alphabeticalAsc':
-        return a.property_address.localeCompare(b.property_address);
-      case 'alphabeticalDesc':
-        return b.property_address.localeCompare(a.property_address);
-      default:
-        return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-    }
-  });
-};
-
-export const filterDeals = (deals: Deal[], filters: any): Deal[] => {
-  return deals.filter(deal => {
-    let match = true;
-    
-    if (filters.status && filters.status !== 'all' && deal.status !== filters.status) {
-      match = false;
-    }
-    
-    if (filters.search && filters.search.trim() !== '') {
-      const searchLower = filters.search.toLowerCase();
-      const matchesAddress = deal.property_address.toLowerCase().includes(searchLower);
-      const matchesSeller = deal.seller_name.toLowerCase().includes(searchLower);
-      
-      if (!matchesAddress && !matchesSeller) {
-        match = false;
-      }
-    }
-    
-    if (filters.minPrice && Number(deal.target_price) < filters.minPrice) {
-      match = false;
-    }
-    
-    if (filters.maxPrice && Number(deal.target_price) > filters.maxPrice) {
-      match = false;
-    }
-    
-    return match;
-  });
+// Calculate profit for a deal
+export const calculateProfit = (
+  purchasePrice: number | string | null | undefined, 
+  salePrice: number | string | null | undefined
+): number => {
+  if (!purchasePrice || !salePrice) return 0;
+  
+  const purchase = typeof purchasePrice === "string" ? parseFloat(purchasePrice) : (purchasePrice || 0);
+  const sale = typeof salePrice === "string" ? parseFloat(salePrice) : (salePrice || 0);
+  
+  return sale - purchase;
 };
