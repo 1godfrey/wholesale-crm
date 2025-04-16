@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/1godfrey/wholesale-crm/compare/v1.10.0...v1.11.0) (2025-04-16)
+
+
+### Features
+
+* test ([85b2c28](https://github.com/1godfrey/wholesale-crm/commit/85b2c284dc1c6f9ac641c55331c20477609275b4))
+
 ## [1.10.0](https://github.com/1godfrey/wholesale-crm/compare/v1.9.0...v1.10.0) (2025-04-16)
 
 
