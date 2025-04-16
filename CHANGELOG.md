@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/1godfrey/wholesale-crm/compare/v1.5.0...v1.6.0) (2025-04-16)
+
+
+### Features
+
+* split GH release into two jobs ([3a9355f](https://github.com/1godfrey/wholesale-crm/commit/3a9355f52dc96a86e0ab17b7dd3d9ab94be26dd3))
+* split GH release into two jobs ([0ae6770](https://github.com/1godfrey/wholesale-crm/commit/0ae67703c2fe6c668b8b626fabc48bf4d29604e6))
+
 ## [1.5.0](https://github.com/1godfrey/wholesale-crm/compare/v1.4.0...v1.5.0) (2025-04-16)
 
 
