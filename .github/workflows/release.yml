@@ -15,3 +15,4 @@ jobs:
         with:
           release-type: node
           package-name: wholesale-crm
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
