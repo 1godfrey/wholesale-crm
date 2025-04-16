@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/1godfrey/wholesale-crm/compare/v1.1.0...v1.2.0) (2025-04-16)
+
+
+### Features
+
+* Add delete feature branch workflow ([e38e74e](https://github.com/1godfrey/wholesale-crm/commit/e38e74e9f39755d29a836cf9c41f9125a3f0fd8b))
+* Update release workflow + add delete feature branch workflow ([64dea17](https://github.com/1godfrey/wholesale-crm/commit/64dea17a464b2691ea6dbda6ade5f793b29d2ef0))
+
 ## [1.1.0](https://github.com/1godfrey/wholesale-crm/compare/v1.0.0...v1.1.0) (2025-04-16)
 
 
