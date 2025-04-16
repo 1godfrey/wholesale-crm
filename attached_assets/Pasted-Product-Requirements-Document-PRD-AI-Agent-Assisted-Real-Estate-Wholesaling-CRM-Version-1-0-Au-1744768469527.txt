@@ -1,0 +1,210 @@
+Product Requirements Document (PRD)
+AI Agent-Assisted Real Estate Wholesaling CRM
+Version: 1.0
+Author: [Your Name]
+Date: [Today's Date]
+
+1. Overview
+Objective
+Build a real estate wholesaling CRM with:
+✅ Lead management (existing)
+✅ Deal tracking (Kanban-style workflow)
+✅ Document uploads (S3)
+✅ Status history & audit logs
+✅ Simple UI (Next.js + FastAPI)
+
+Tech Stack
+Component	Technology
+Frontend	React (Next.js)
+Backend	Python (FastAPI)
+Database	PostgreSQL
+Storage	AWS S3
+Hosting	Vercel (FE), AWS (BE)
+2. Features & Requirements
+Core User Stories
+As a wholesaler, I want to:
+
+Upload leads via CSV or manual entry.
+
+Track deals in a Kanban view (New → Under Contract → Closed).
+
+Update deal status with notes.
+
+Upload contracts/docs (S3).
+
+See a timeline of deal changes.
+
+As an admin, I want to:
+
+View all deals with filters.
+
+Audit status change history.
+
+Manage user permissions.
+
+3. Technical Specifications
+Database Schema (PostgreSQL)
+Tables
+deals
+
+sql
+Copy
+CREATE TABLE deals (
+    deal_id UUID PRIMARY KEY,
+    lead_id UUID REFERENCES leads(lead_id),
+    property_address TEXT,
+    seller_name TEXT,
+    seller_phone TEXT,
+    target_price DECIMAL,
+    assigned_price DECIMAL,
+    status TEXT CHECK (status IN ('New', 'Negotiating', 'Under Contract', 'Assigned', 'Closed', 'Dead')),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    notes TEXT,
+    assigned_to UUID REFERENCES users(user_id)
+);
+deal_status_history (Audit Log)
+
+sql
+Copy
+CREATE TABLE deal_status_history (
+    history_id UUID PRIMARY KEY,
+    deal_id UUID REFERENCES deals(deal_id),
+    old_status TEXT,
+    new_status TEXT,
+    changed_by UUID REFERENCES users(user_id),
+    timestamp TIMESTAMP DEFAULT NOW(),
+    notes TEXT
+);
+documents (S3 Metadata)
+
+sql
+Copy
+CREATE TABLE documents (
+    doc_id UUID PRIMARY KEY,
+    deal_id UUID REFERENCES deals(deal_id),
+    s3_key TEXT,  // e.g., "contracts/abc123.pdf"
+    uploaded_by UUID REFERENCES users(user_id),
+    uploaded_at TIMESTAMP DEFAULT NOW()
+);
+API Endpoints (FastAPI)
+Deals
+Endpoint	Method	Description
+/deals	GET	List deals (filter by status, seller_name, etc.)
+/deals/{deal_id}	GET	Get single deal
+/deals	POST	Create new deal
+/deals/{deal_id}/status	PUT	Update status (logs history)
+Documents
+Endpoint	Method	Description
+/deals/{deal_id}/documents	POST	Generate S3 presigned URL for upload
+/deals/{deal_id}/documents	GET	List documents
+Status History
+Endpoint	Method	Description
+/deals/{deal_id}/history	GET	Get status change log
+Frontend (Next.js)
+Pages
+/deals (Dashboard)
+
+Kanban board (drag-and-drop or dropdown status updates).
+
+Filters (status, price range).
+
+/deals/[id] (Deal Details)
+
+Status dropdown + notes.
+
+Document upload (S3).
+
+Timeline of changes.
+
+/upload (Lead Import)
+
+CSV upload + manual entry form.
+
+AWS S3 Document Upload Flow
+Frontend:
+
+User clicks "Upload Contract."
+
+Next.js calls /documents/presigned-url to get S3 upload URL.
+
+Backend (FastAPI):
+
+Generates presigned URL with boto3.
+
+python
+Copy
+s3.generate_presigned_url('put_object', Params={'Bucket': 'your-bucket', 'Key': 'contracts/{uuid}.pdf'})
+Frontend:
+
+Uploads file directly to S3 via presigned URL.
+
+Sends metadata (deal_id, filename) to /documents.
+
+4. Deployment
+Hosting
+Service	Use Case
+Vercel	Next.js Frontend
+AWS	FastAPI (ECS/Lambda) + PostgreSQL (RDS) + S3
+CI/CD
+GitHub Actions for:
+
+Next.js → Vercel deploy.
+
+FastAPI → AWS ECS/Lambda.
+
+5. AI Agent Tasks
+Phase 1: Backend (FastAPI + PostgreSQL)
+Set up FastAPI CRUD for deals, status_history.
+
+Implement S3 presigned URLs.
+
+Write automated tests (Pytest).
+
+Phase 2: Frontend (Next.js)
+Build Kanban UI (React DnD or similar).
+
+Integrate S3 file uploads.
+
+Connect to FastAPI endpoints.
+
+Phase 3: Deployment
+Configure Vercel for Next.js.
+
+Deploy FastAPI to AWS (ECS/Lambda).
+
+Set up PostgreSQL (RDS/Aurora).
+
+6. Success Metrics
+Deal conversion rate (time from "New" → "Closed").
+
+User adoption (# of weekly active users).
+
+Avg. docs per deal (tracking compliance).
+
+7. Next Steps
+AI Agent to generate initial boilerplate code.
+
+Review DB schema + API contracts.
+
+Build MVP (Kanban + S3 uploads).
+
+Approval:
+✅ [Your Name]
+📅 [Date]
+
+Appendix: Sample FastAPI Code (S3 Uploads)
+python
+Copy
+from fastapi import FastAPI, UploadFile
+import boto3
+
+app = FastAPI()
+s3 = boto3.client('s3')
+
+@app.post("/documents/presigned-url")
+async def get_presigned_url(deal_id: str, filename: str):
+    key = f"contracts/{deal_id}/{filename}"
+    url = s3.generate_presigned_url('put_object', Params={'Bucket': 'your-bucket', 'Key': key})
+    return {"url": url}
+PRD Status: Ready for AI Agent Implementation 🚀
