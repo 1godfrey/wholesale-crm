@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/1godfrey/wholesale-crm/compare/v1.3.0...v1.3.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* update ci workflow ([5b9d70b](https://github.com/1godfrey/wholesale-crm/commit/5b9d70b32ae4f5740c7b1392d2748adf7f1111d3))
+* update ci workflow ([6b19876](https://github.com/1godfrey/wholesale-crm/commit/6b19876552e8f61e8b403375f0d94f074987026f))
+
 ## [1.3.0](https://github.com/1godfrey/wholesale-crm/compare/v1.2.0...v1.3.0) (2025-04-16)
 
 
