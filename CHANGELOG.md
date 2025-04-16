@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.1](https://github.com/1godfrey/wholesale-crm/compare/v1.7.0...v1.7.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* test release trigger ([a3ca2eb](https://github.com/1godfrey/wholesale-crm/commit/a3ca2eb8d749b7d6bc8b1362a00e6fe800528f5b))
+* test release trigger ([9c8f270](https://github.com/1godfrey/wholesale-crm/commit/9c8f270a2258f24ac79cf6544c330fdd55c20486))
+
 ## [1.7.0](https://github.com/1godfrey/wholesale-crm/compare/v1.6.0...v1.7.0) (2025-04-16)
 
 
