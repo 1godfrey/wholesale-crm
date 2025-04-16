@@ -24,4 +24,4 @@ jobs:
 
       - name: Run tests
         run: |
-          # Put tests here later
+          echo "Add tests here. For now success!✅"
