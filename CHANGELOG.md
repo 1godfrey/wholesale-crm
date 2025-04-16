@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.0](https://github.com/1godfrey/wholesale-crm/compare/v1.18.0...v1.19.0) (2025-04-16)
+
+
+### Features
+
+* build out website routes ([b477096](https://github.com/1godfrey/wholesale-crm/commit/b47709645330e83be6a3640cc4d65c9073abf424))
+* build out website routes ([9399890](https://github.com/1godfrey/wholesale-crm/commit/93998908cada54e4b8f9208fadde472fa8c5560d))
+
 ## [1.18.0](https://github.com/1godfrey/wholesale-crm/compare/v1.17.0...v1.18.0) (2025-04-16)
 
 
