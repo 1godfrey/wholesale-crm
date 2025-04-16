@@ -6,6 +6,10 @@ on:
       - main
     paths-ignore:
       - '**.md'
+    pull_request:
+      types:
+        - closed
+      branches: [main]
 
 jobs:
   check-release-commit:
@@ -13,10 +17,13 @@ jobs:
     outputs:
       is_release: ${{ steps.check.outputs.is_release }}
     steps:
+      - name: Debug commit message
+        run: echo "${{ github.event.head_commit.message }}"
+      
       - name: Check if commit is a release
         id: check
         run: |
-          if [[ "${{ github.event.head_commit.message }}" == chore\(main\):\ release* ]]; then
+          if [[ "${{ github.event.head_commit.message }}" == chore(main):* ]]; then
             echo "is_release=true" >> $GITHUB_OUTPUT
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
