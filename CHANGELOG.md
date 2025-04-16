@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/1godfrey/wholesale-crm/compare/v1.12.0...v1.13.0) (2025-04-16)
+
+
+### Features
+
+* manual dispatch release workflow ([9e8bf0a](https://github.com/1godfrey/wholesale-crm/commit/9e8bf0af317dddc02391d319a920b3570d6cbc8e))
+
 ## [1.12.0](https://github.com/1godfrey/wholesale-crm/compare/v1.11.0...v1.12.0) (2025-04-16)
 
 
