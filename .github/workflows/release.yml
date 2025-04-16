@@ -1,4 +1,3 @@
-# .github/workflows/release.yml
 name: Release Please
 
 on:
@@ -6,6 +5,10 @@ on:
     branches:
       - main
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -16,5 +19,18 @@ jobs:
         with:
           release-type: node
           package-name: wholesale-crm
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           bump-minor-pre-major: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  automerge:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' &&
+      startsWith(github.event.pull_request.title, 'chore(main): release') &&
+      contains(join(github.event.pull_request.labels.*.name, ','), 'autorelease: pending')
+    steps:
+      - name: Enable auto-merge for release PRs
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
