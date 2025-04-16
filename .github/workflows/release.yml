@@ -1,0 +1,17 @@
+# .github/workflows/release.yml
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release Please
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: node
+          package-name: wholesale-crm
