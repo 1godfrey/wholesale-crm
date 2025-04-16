@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.1](https://github.com/1godfrey/wholesale-crm/compare/v1.19.0...v1.19.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* update readme ([c93daaf](https://github.com/1godfrey/wholesale-crm/commit/c93daaf55b94ebfa3a9179d76f432326c20b23eb))
+* update readme ([749a469](https://github.com/1godfrey/wholesale-crm/commit/749a469cf57e521501439c96411711f2fd8cff9d))
+
 ## [1.19.0](https://github.com/1godfrey/wholesale-crm/compare/v1.18.0...v1.19.0) (2025-04-16)
 
 
