@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/1godfrey/wholesale-crm/compare/v1.2.0...v1.3.0) (2025-04-16)
+
+
+### Features
+
+* ci status check ([dcb5505](https://github.com/1godfrey/wholesale-crm/commit/dcb55051975e3bd5da3d958a71c9613774af5f04))
+
+
+### Bug Fixes
+
+* fix ci status check workflow later ([1b0e7eb](https://github.com/1godfrey/wholesale-crm/commit/1b0e7eb6d3d06c0086b0704844109adeb6f7a28c))
+
 ## [1.2.0](https://github.com/1godfrey/wholesale-crm/compare/v1.1.0...v1.2.0) (2025-04-16)
 
 
