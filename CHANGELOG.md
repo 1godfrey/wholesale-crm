@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.18.0](https://github.com/1godfrey/wholesale-crm/compare/v1.17.0...v1.18.0) (2025-04-16)
+
+
+### Features
+
+* combine release workflows ([232c6fb](https://github.com/1godfrey/wholesale-crm/commit/232c6fb1cabd2c9b866b7504b890e577d4e8698d))
+* combine release workflows ([7dbfbc6](https://github.com/1godfrey/wholesale-crm/commit/7dbfbc6d416d7ad1e5c378b2bb178de8aa52fcc0))
+* release please token instead of github token ([274a2a8](https://github.com/1godfrey/wholesale-crm/commit/274a2a8764981d1104d74c24881cbc108d0a8bdf))
+* release please token instead of github token ([60ce8b1](https://github.com/1godfrey/wholesale-crm/commit/60ce8b112814f76fe846386ef1c226b8f757b75a))
+
 ## [1.17.0](https://github.com/1godfrey/wholesale-crm/compare/v1.16.0...v1.17.0) (2025-04-16)
 
 
