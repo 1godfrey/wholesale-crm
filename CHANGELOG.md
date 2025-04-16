@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.2](https://github.com/1godfrey/wholesale-crm/compare/v1.3.1...v1.3.2) (2025-04-16)
+
+
+### Bug Fixes
+
+* release workflow trigger test ([d4d71b4](https://github.com/1godfrey/wholesale-crm/commit/d4d71b4a788a67e3760a4d58c87378eb566308c9))
+* release workflow trigger test ([e79924c](https://github.com/1godfrey/wholesale-crm/commit/e79924c927a25e72b3b5e7c9f4115f4cf5b3a3ca))
+
 ## [1.3.1](https://github.com/1godfrey/wholesale-crm/compare/v1.3.0...v1.3.1) (2025-04-16)
 
 
