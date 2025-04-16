@@ -1,86 +1,86 @@
 import { DealStatus } from "@shared/schema";
 
-export const getStatusColor = (status: string): { bgColor: string; dotColor: string; textColor: string } => {
+export const getStatusColor = (status: DealStatus) => {
   switch (status) {
     case DealStatus.New:
-      return { 
-        bgColor: "bg-amber-100", 
-        dotColor: "bg-amber-500", 
-        textColor: "text-amber-700" 
+      return {
+        badgeColor: "bg-blue-100 text-blue-800",
+        dotColor: "bg-blue-500",
+        textColor: "text-blue-500"
       };
     case DealStatus.Negotiating:
-      return { 
-        bgColor: "bg-blue-100", 
-        dotColor: "bg-blue-500", 
-        textColor: "text-blue-700" 
+      return {
+        badgeColor: "bg-purple-100 text-purple-800",
+        dotColor: "bg-purple-500",
+        textColor: "text-purple-500"
       };
     case DealStatus.UnderContract:
-      return { 
-        bgColor: "bg-orange-100", 
-        dotColor: "bg-orange-500", 
-        textColor: "text-orange-700" 
+      return {
+        badgeColor: "bg-amber-100 text-amber-800",
+        dotColor: "bg-amber-500",
+        textColor: "text-amber-500"
       };
     case DealStatus.Assigned:
-      return { 
-        bgColor: "bg-purple-100", 
-        dotColor: "bg-purple-500", 
-        textColor: "text-purple-700" 
+      return {
+        badgeColor: "bg-emerald-100 text-emerald-800",
+        dotColor: "bg-emerald-500",
+        textColor: "text-emerald-500"
       };
     case DealStatus.Closed:
-      return { 
-        bgColor: "bg-green-100", 
-        dotColor: "bg-green-500", 
-        textColor: "text-green-700" 
+      return {
+        badgeColor: "bg-green-100 text-green-800",
+        dotColor: "bg-green-500",
+        textColor: "text-green-500"
       };
     case DealStatus.Dead:
-      return { 
-        bgColor: "bg-red-100", 
-        dotColor: "bg-red-500", 
-        textColor: "text-red-700" 
+      return {
+        badgeColor: "bg-red-100 text-red-800",
+        dotColor: "bg-red-500",
+        textColor: "text-red-500"
       };
     default:
-      return { 
-        bgColor: "bg-gray-100", 
-        dotColor: "bg-gray-500", 
-        textColor: "text-gray-700" 
+      return {
+        badgeColor: "bg-neutral-100 text-neutral-800",
+        dotColor: "bg-neutral-500",
+        textColor: "text-neutral-500"
       };
   }
 };
 
-export const getTimelineItemColor = (status: string): string => {
+export const getTimelineIcon = (status: DealStatus) => {
   switch (status) {
     case DealStatus.New:
-      return "border-amber-500";
+      return "ri-flag-line";
     case DealStatus.Negotiating:
-      return "border-blue-500";
+      return "ri-discuss-line";
     case DealStatus.UnderContract:
-      return "border-orange-500";
+      return "ri-file-text-line";
     case DealStatus.Assigned:
-      return "border-purple-500";
-    case DealStatus.Closed:
-      return "border-green-500";
-    case DealStatus.Dead:
-      return "border-red-500";
-    default:
-      return "border-gray-300";
-  }
-};
-
-export const getTimelineIcon = (status: string): string => {
-  switch (status) {
-    case DealStatus.New:
-      return "ri-add-line";
-    case DealStatus.Negotiating:
-      return "ri-chat-3-line";
-    case DealStatus.UnderContract:
-      return "ri-check-line";
-    case DealStatus.Assigned:
-      return "ri-exchange-line";
+      return "ri-user-received-2-line";
     case DealStatus.Closed:
       return "ri-check-double-line";
     case DealStatus.Dead:
-      return "ri-close-line";
+      return "ri-close-circle-line";
     default:
       return "ri-question-line";
+  }
+};
+
+export const getTimelineItemColor = (status: DealStatus) => {
+  switch (status) {
+    case DealStatus.New:
+      return "bg-blue-500 text-white";
+    case DealStatus.Negotiating:
+      return "bg-purple-500 text-white";
+    case DealStatus.UnderContract:
+      return "bg-amber-500 text-white";
+    case DealStatus.Assigned:
+      return "bg-emerald-500 text-white";
+    case DealStatus.Closed:
+      return "bg-green-500 text-white";
+    case DealStatus.Dead:
+      return "bg-red-500 text-white";
+    default:
+      return "bg-neutral-500 text-white";
   }
 };
