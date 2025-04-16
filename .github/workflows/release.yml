@@ -20,7 +20,7 @@ jobs:
           release-type: node
           package-name: wholesale-crm
           bump-minor-pre-major: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
   automerge:
     runs-on: ubuntu-latest
