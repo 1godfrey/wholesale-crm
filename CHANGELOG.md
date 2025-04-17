@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.0](https://github.com/1godfrey/wholesale-crm/compare/v1.19.1...v1.20.0) (2025-04-17)
+
+
+### Features
+
+* change CRM name ([e5b8564](https://github.com/1godfrey/wholesale-crm/commit/e5b8564188e07c9de3f726b6285c2a7c3a75ed3e))
+* change CRM name ([fda1529](https://github.com/1godfrey/wholesale-crm/commit/fda15292fc8af5b89ac639a530c59e13d4b6de38))
+
 ## [1.19.1](https://github.com/1godfrey/wholesale-crm/compare/v1.19.0...v1.19.1) (2025-04-16)
 
 
