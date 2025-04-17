@@ -17,7 +17,7 @@ export const Sidebar = () => {
     <div className="hidden md:flex md:flex-shrink-0">
       <div className="flex flex-col w-64 bg-neutral-800 text-white">
         <div className="flex items-center justify-center h-16 px-4 border-b border-neutral-700">
-          <h1 className="text-lg font-semibold">RE Wholesaling CRM</h1>
+          <h1 className="text-lg font-semibold">Horizon CRM</h1>
         </div>
         <div className="flex flex-col flex-grow pt-5 overflow-y-auto">
           <nav className="flex-1 px-2 space-y-1">
