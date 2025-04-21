@@ -27,7 +27,7 @@ jobs:
     if: |
       github.event_name == 'pull_request' &&
       startsWith(github.event.pull_request.title, 'chore(main): release') &&
-      contains(join(github.event.pull_request.labels.*.name, ','), 'autorelease: pending')
+      (contains(github.event.pull_request.labels.*.name, 'autorelease: pending') || contains(github.event.pull_request.labels.*.name, 'autorelease: tagged'))
     steps:
       - name: Enable auto-merge for release PRs
         uses: peter-evans/enable-pull-request-automerge@v2
